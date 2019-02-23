@@ -4,6 +4,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     //TODO: place thing in it.
 
-    println(DataLoader.listFiles(new File(".")))
+    println(DataLoader.loadData(DataLoader.listFiles(new File("."))))
   }
 }
