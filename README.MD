@@ -1,4 +1,4 @@
-#Projet Scala
+# Projet Scala
 
 >Your project is to imagine and drone/mobile IOT devices and create it's big data architecture.
    write your code in scala send by email the git with the commit hash before the 9th of July.You will have to think about company or ngo creating/selling/promoting an IOT devices.
@@ -24,7 +24,7 @@
 Le but de ce projet est de réaliser de la maintenance de structure à l'aide de prise de photo et/ou vidéo par des drones.
 
 
-##libraries:  
+## libraries:  
 - Play Json
     - User friendly
 - Play framework
@@ -36,17 +36,17 @@ Le but de ce projet est de réaliser de la maintenance de structure à l'aide de
     - Parsing csv is not [fun](https://sebsauvage.net/wiki/doku.php?id=csv&fbclid=IwAR2PBtYwuMd9BZO35JTju_qFczLFkD6eOsFQ4kcY0YgsPaOXhJninyEkGqga)
 
 
-##Objectifs
+## Objectifs
 
-###Semaine 1
+### Semaine 1
 - [X] JSON Parsing
 - [X] CSV Parsing
 - [X] Read whole directory & sub directories
 
-###Semaine 2
+### Semaine 2
 ???
 
-##Authors
+## Authors
 - Beuvry Jérémy
 - Fleury Sébastien
 - Pochon Mathieu
