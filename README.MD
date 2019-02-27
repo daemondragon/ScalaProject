@@ -27,8 +27,8 @@ Le but de ce projet est de réaliser de la maintenance de structure à l'aide de
 ## libraries:  
 - Play Json
     - User friendly
-- Play framework
-    - Rester dans l'eco system play
+- Akka-http
+    - Really simple web server for the REST api
 - Slick
     - ORM
     - Generation de requetes depuis le code Scala
