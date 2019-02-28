@@ -1,9 +1,13 @@
 import java.io.File
 
+import client.{DataLoader, DataSender}
+
 object Main {
   def main(args: Array[String]): Unit = {
-    //TODO: place thing in it.
 
-    println(DataLoader.loadData(DataLoader.listFiles(new File("./data"))).toList)
+    val sender = DataSender("localhost", 8080, "bar")
+
+    sender.sendData(DataLoader.loadData(DataLoader.listFiles(new File("./data"))))
+
   }
 }

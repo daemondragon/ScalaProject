@@ -1,3 +1,5 @@
+package client
+
 import java.io.File
 
 import play.api.libs.json.{JsObject, Json}

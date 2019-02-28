@@ -1,7 +1,6 @@
 package routes
 
-import akka.http.scaladsl.server.Directives.{complete, get, path, post}
-import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Directives.{complete, path, post, _}
 
 
 object BarRouter {
