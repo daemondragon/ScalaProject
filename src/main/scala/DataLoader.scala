@@ -1,6 +1,5 @@
 import java.io.File
 
-import com.github.tototoshi.csv.CSVReader
 import play.api.libs.json.{JsObject, Json}
 
 import scala.io.Source
@@ -25,10 +24,16 @@ object DataLoader {
     .map(Json.parse)
     .map(_.as[JsObject])
 
-  def loadCsvData(file: File): Iterator[JsObject] = CSVReader.open(file)
-    .allWithHeaders()
-    .map(x => Json.toJsObject(x))
-    .toIterator
+  def loadCsvData(file: File): Iterator[JsObject] = {
+    val lines = Source.fromFile(file).getLines()
+    val headers = lines.next().split(",")//Get the headers to correctly generate the JsObject
+
+    lines
+      //Transform the given line to Map[String, Double] (every values is a Number)
+      .map(line => (headers zip line.split(",").map(_.toDouble)).toMap)
+      //Transform from Map[String, Double] to JsObject
+      .map(Json.toJsObject(_))
+  }
 
   def loadData(files: Iterator[File]): Iterator[JsObject] = files
     .flatMap(file =>

@@ -23,13 +23,13 @@ def normal(drone):
         drone["battery"] = max(0, drone["battery"] - random.uniform(0, 3) * ((100 - drone["temperature"]) / 100))
         drone["temperature"] += random.uniform(-0.02, 0.02)
 
-        drone["defect"] = random.randint(0, 100) <= 5# 5% defect.
+        drone["defect"] = int(random.randint(0, 100) <= 5)# 5% defect.
     else:
         drone["temperature"] += random.uniform(-0.1, 0)#Cooling down
 
 def defects(drone):
     normal(drone)
-    drone["defect"] = random.randint(0, 100) <= 92# 92% defect.
+    drone["defect"] = int(random.randint(0, 100) <= 92)# 92% defect.
 
 def thief(drone):
     normal(drone)
@@ -80,7 +80,7 @@ for file_index in range(args.nb_files):
         "longitude": random.uniform(-180, 180),#Random position on earth
         "temperature": random.uniform(10, 30),#Normal temperature on start
         "battery": 100,#Full battery
-        "defect": False
+        "defect": int(False)
     }]
 
     for i in range(args.nb_lines - 1):
