@@ -75,6 +75,7 @@ for file_index in range(args.nb_files):
     print("Generating file:", file_index, "with scenario:", scenario_name, extension)
 
     drones = [{
+        "id" : random.randint(0, 60000),
         "latitude": random.uniform(-90, 90),
         "longitude": random.uniform(-180, 180),#Random position on earth
         "temperature": random.uniform(10, 30),#Normal temperature on start
@@ -84,6 +85,7 @@ for file_index in range(args.nb_files):
 
     for i in range(args.nb_lines - 1):
         drone = {
+            "id": drones[i]["id"],
             "latitude": drones[i]["latitude"],
             "longitude": drones[i]["longitude"],
             "temperature": drones[i]["temperature"],
