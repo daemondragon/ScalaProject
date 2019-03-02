@@ -1,15 +1,23 @@
+import Cdata.{DroneData, InMemDB}
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import routes.{BarRouter, FooRouter}
+import slick.jdbc.H2Profile.api._
 
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 import scala.io.StdIn
+import scala.util.Failure
 
 
 object Server {
+
+
   def main(args: Array[String]): Unit = {
+
 
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
@@ -25,6 +33,22 @@ object Server {
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port
       .onComplete(_ => system.terminate()) // and shutdown when done
+  }
+
+}
+
+object TestSlick extends App {
+
+  val newDb = InMemDB()
+  newDb.reset(true)
+ // newDb.prepare()
+
+  Await.ready(newDb.pushData(DroneData(4, 1, 1, 1, 1.0, defect = false)), Duration(3, SECONDS)).value.get match {
+    case Failure(e) => {
+      e.printStackTrace()
+      throw e
+    }
+    case _ => println("ok!!")
   }
 }
 
