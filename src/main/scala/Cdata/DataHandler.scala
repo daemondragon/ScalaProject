@@ -10,5 +10,4 @@ trait DataHandler {
 
   def reset(re_prepare: Boolean = false): Unit
 
-
 }
