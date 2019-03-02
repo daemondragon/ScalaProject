@@ -11,11 +11,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 case class InMemDB() extends DataHandler {
   val data = TableQuery[DroneDatas]
   val db = Database.forConfig("inmemory")
+  val tables = List(data)
 
   def prepare(): Unit = {
     println("Trying to create tables")
 
-    val tables = List(data)
     val existing = db.run(MTable.getTables)
     val setup = existing.flatMap(v => {
       val names = v.map(mt => mt.name.name)
@@ -45,7 +45,6 @@ case class InMemDB() extends DataHandler {
 
   def reset(re_prepare: Boolean = false): Unit = {
     println("Droping tables")
-    val tables = List(data)
     val existing = db.run(MTable.getTables)
     val setup = existing.flatMap(v => {
       val names = v.map(mt => mt.name.name)
