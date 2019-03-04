@@ -9,7 +9,7 @@
 <table>
     <thead>
     <tr>
-        <th>Id</th>
+        <th>Time</th>
         <th>Longitude</th>
         <th>Latitude</th>
         <th>Temperature</th>
@@ -19,9 +19,9 @@
     </thead>
     <tbody>
 
-    @for(drone <- drone_action_list) {
+    @for(drone <- drone_action_list.sortWith(_.time < _.time)) {
     <tr>
-        <td>@drone.id</td>
+        <td>@drone.time</td>
         <td>@drone.longitude</td>
         <td>@drone.latitude</td>
         <td>@drone.temperature</td>
