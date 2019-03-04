@@ -1,37 +1,52 @@
 @import Cdata.DroneData
 @(drones: Seq[DroneData])
 
-<h1>List of drones data</h1>
 
-@for((id, drone_action_list) <- drones.groupBy(_.id)) {
-<h3>Drone n° @id</h3>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Drones data</title>
+</head>
+<body>
 
-<table>
-    <thead>
-    <tr>
-        <th>Time</th>
-        <th>Longitude</th>
-        <th>Latitude</th>
-        <th>Temperature</th>
-        <th>Battery (%)</th>
-        <th>Defect</th>
-    </tr>
-    </thead>
-    <tbody>
+    <h1>List of drones data</h1>
 
-    @for(drone <- drone_action_list.sortWith(_.time < _.time)) {
-    <tr>
-        <td>@drone.time</td>
-        <td>@drone.longitude</td>
-        <td>@drone.latitude</td>
-        <td>@drone.temperature</td>
-        <td>@drone.battery</td>
-        <td>@drone.defect</td>
-    </tr>
+    @for((id, drone_action_list) <- drones.groupBy(_.id)) {
+    <h3>Drone n° @id</h3>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            <th>Temperature</th>
+            <th>Battery (%)</th>
+            <th>Defect</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @for(drone <- drone_action_list.sortWith(_.time < _.time)) {
+        @if(drone.temperature > 50 || drone.battery < 10) {
+            <tr class="table-danger">
+        } else if (drone.defect != 0 ) {
+            <tr class="table-warning">
+        } else { <tr> }
+            <td>@drone.time</td>
+            <td>@drone.longitude</td>
+            <td>@drone.latitude</td>
+            <td>@drone.temperature</td>
+            <td>@drone.battery</td>
+            <td>@drone.defect</td>
+        </tr>
+        }
+        </tbody>
+    </table>
     }
 
-    </tbody>
-</table>
-}
+</body>
+</html>
+
 
 
