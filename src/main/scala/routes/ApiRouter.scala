@@ -1,14 +1,14 @@
 package routes
 
 import Cdata.{DataBase, DroneData}
+import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives.{complete, path, post, _}
 import akka.http.scaladsl.server.Route
-import play.api.libs.json.{Json, OWrites, Reads}
+import play.api.libs.json.{Json, Reads}
 
 import scala.util.{Failure, Success, Try}
-import akka.http.scaladsl.model.StatusCodes._
 
-object AddRouter {
+object ApiRouter {
   val route: Route = path("drone") {
     post {
       entity(as[String]) { body =>
@@ -23,6 +23,11 @@ object AddRouter {
           }
         }
       }
+    }
+
+    delete {
+      DataBase.newDb.reset(true)
+      complete("Done")
     }
   }
 }
