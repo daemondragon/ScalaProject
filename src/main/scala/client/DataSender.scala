@@ -31,7 +31,7 @@ case class DataSender(host: String, port: Int, route: String) {
       // Set the used pool
       .via(pool)
       // Launch all request, result is not used as we have nothing to do with them.
-      .runForeach(_._1)
+      .runForeach(response => println(response._1))
 
     //Do not wait for termination, all data have been received.
     http.shutdownAllConnectionPools()
