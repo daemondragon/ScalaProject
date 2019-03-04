@@ -50,3 +50,8 @@ Le but de ce projet est de réaliser de la maintenance de structure à l'aide de
 - Beuvry Jérémy
 - Fleury Sébastien
 - Pochon Mathieu
+
+### Compilation
+
+Pour generer le fichier necessaire pour l'affichage des données via twirl,
+il faut auparavant faire un `compile` dans sbt (Dans Intellij Idea -> sbt shell)
