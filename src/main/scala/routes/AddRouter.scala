@@ -5,33 +5,23 @@ import akka.http.scaladsl.server.Directives.{complete, path, post, _}
 import akka.http.scaladsl.server.Route
 import play.api.libs.json.{Json, OWrites, Reads}
 
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 import akka.http.scaladsl.model.StatusCodes._
 
-object BarRouter {
-  val route: Route = path("bar") {
+object AddRouter {
+  val route: Route = path("drone") {
     post {
       entity(as[String]) { body =>
-
         implicit val droneRd: Reads[DroneData] = Json.reads[DroneData]
-        implicit val droneWr: OWrites[DroneData] = Json.writes[DroneData]
-
-
-        val drone = droneRd.reads(Json.parse(body))
-
-        val defdrone = DroneData(1, 1.1, 1, 9.7, 1, false)
-        val default = Json.toJson(defdrone)
-        if (!drone.isSuccess) {
-
-          complete((BadRequest, s"$default"))
+        val drone = Try(droneRd.reads(Json.parse(body)))
+        if (!drone.isSuccess || !drone.get.isSuccess) {
+          complete((BadRequest, s"Malformed json: $body"))
         } else {
-          onComplete(DataBase.newDb.pushData(drone.get)) {
+          onComplete(DataBase.newDb.pushData(drone.get.get)) {
             case Success(res) => complete(s"Sent body: $body")
             case Failure(ex) => complete((InternalServerError, s"An error occurred: ${ex.getMessage}"))
           }
         }
-
-
       }
     }
   }
