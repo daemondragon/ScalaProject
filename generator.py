@@ -15,6 +15,8 @@ print(args)
 random.seed(args.seed)
 
 def normal(drone):
+    drone["time"] += random.randint(-1, 10)
+
     if drone["battery"] > 0:#Can move
         drone["latitude"] += random.uniform(0.0001, 0.0001)
         drone["longitude"] += random.uniform(0.0001, 0.0001)
@@ -80,7 +82,8 @@ for file_index in range(args.nb_files):
         "longitude": random.uniform(-180, 180),#Random position on earth
         "temperature": random.uniform(10, 30),#Normal temperature on start
         "battery": 100,#Full battery
-        "defect": int(False)
+        "defect": int(False),
+        "time": random.randint(1551711535, 1638629935)
     }]
 
     for i in range(args.nb_lines - 1):
@@ -90,7 +93,8 @@ for file_index in range(args.nb_files):
             "longitude": drones[i]["longitude"],
             "temperature": drones[i]["temperature"],
             "battery": drones[i]["battery"],
-            "defect": drones[i]["defect"]
+            "defect": drones[i]["defect"],
+            "time": drones[i]["time"]
         }
 
         scenario(drone)
