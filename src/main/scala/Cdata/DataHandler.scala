@@ -10,4 +10,5 @@ trait DataHandler {
 
   def reset(re_prepare: Boolean = false): Unit
 
+  def all(): Future[Seq[DroneData]]
 }

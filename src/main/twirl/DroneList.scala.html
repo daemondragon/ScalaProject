@@ -1,0 +1,30 @@
+@import Cdata.DroneData
+@(drones: Seq[DroneData])
+
+<h1>List of drones data</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            <th>Temperature</th>
+            <th>Battery (%)</th>
+            <th>Defect</th>
+        </tr>
+    </thead>
+    <tbody>
+    @for(drone <- drones) {
+        <tr>
+            <td>@drone.id</td>
+            <td>@drone.longitude</td>
+            <td>@drone.latitude</td>
+            <td>@drone.temperature</td>
+            <td>@drone.battery</td>
+            <td>@drone.defect</td>
+        </tr>
+    }
+
+    </tbody>
+</table>

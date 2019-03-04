@@ -64,4 +64,6 @@ case class InMemDB() extends DataHandler {
     if (re_prepare)
       prepare()
   }
+
+  override def all(): Future[Seq[DroneData]] = db.run(data.result)
 }

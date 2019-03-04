@@ -18,6 +18,8 @@ case class DataSender(host: String, port: Int, route: String) {
     implicit val executionContext: ExecutionContextExecutor = system.dispatcher
     implicit val materializer: ActorMaterializer = ActorMaterializer()
 
+    // Sending all objects automatically one by one.
+
     // From all js objects
     Source.fromIterator(() => objects)
       // Create the associated POST HttpRequest

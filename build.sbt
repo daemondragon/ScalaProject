@@ -17,4 +17,12 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.196"
 
+val root = (project in file("."))
+  .enablePlugins(SbtTwirl)
+  .settings(//Set the twirl resource directory
+    sourceDirectories in (Compile, TwirlKeys.compileTemplates) +=
+      (baseDirectory.value.getParentFile / "src" / "main" / "twirl")
+  )
+
+
 

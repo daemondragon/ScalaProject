@@ -2,7 +2,7 @@ package Cdata
 
 import slick.jdbc.H2Profile.api._
 
-case class DroneData(id: Int, latitutde: Double, longitude: Double, temperature: Double, battery: Double, defect: Boolean)
+case class DroneData(id: Int, latitude: Double, longitude: Double, temperature: Double, battery: Double, defect: Boolean)
 
 class DroneDatas(tag: Tag) extends Table[DroneData](tag, "DRONE_DATA") {
   def line_id = column[Int]("id", O.AutoInc, O.PrimaryKey)
