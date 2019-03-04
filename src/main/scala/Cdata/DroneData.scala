@@ -1,8 +1,10 @@
 package Cdata
 
+import java.sql.Timestamp
+
 import slick.jdbc.H2Profile.api._
 
-case class DroneData(id: Int, latitude: Double, longitude: Double, temperature: Double, battery: Double, defect: Int)
+case class DroneData(id: Int, latitude: Double, longitude: Double, temperature: Double, battery: Double, defect: Int, time:Int)
 
 class DroneDatas(tag: Tag) extends Table[DroneData](tag, "DRONE_DATA") {
   def line_id = column[Int]("id", O.AutoInc, O.PrimaryKey)
@@ -12,7 +14,8 @@ class DroneDatas(tag: Tag) extends Table[DroneData](tag, "DRONE_DATA") {
   def temperature = column[Double]("TEMPERATURE")
   def battery = column[Double]("BATTERY")
   def defect = column[Int]("DEFECT")
-  def * = (id, latitude, longitude, temperature, battery, defect) <> (DroneData.tupled, DroneData.unapply)
+  def time = column[Int]("TIME")
+  def * = (id, latitude, longitude, temperature, battery, defect, time) <> (DroneData.tupled, DroneData.unapply)
 }
 
 /*

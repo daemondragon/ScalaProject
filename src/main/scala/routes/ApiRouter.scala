@@ -10,24 +10,26 @@ import scala.util.{Failure, Success, Try}
 
 object ApiRouter {
   val route: Route = path("drone") {
-    post {
-      entity(as[String]) { body =>
-        implicit val droneRd: Reads[DroneData] = Json.reads[DroneData]
-        val drone = Try(droneRd.reads(Json.parse(body)))
-        if (!drone.isSuccess || !drone.get.isSuccess) {
-          complete((BadRequest, s"Malformed json: $body"))
-        } else {
-          onComplete(DataBase.newDb.pushData(drone.get.get)) {
-            case Success(res) => complete(s"Sent body: $body")
-            case Failure(ex) => complete((InternalServerError, s"An error occurred: ${ex.getMessage}"))
+    concat(
+      post {
+        entity(as[String]) { body =>
+          implicit val droneRd: Reads[DroneData] = Json.reads[DroneData]
+
+
+          val drone = Try(droneRd.reads(Json.parse(body)))
+          if (!drone.isSuccess || !drone.get.isSuccess) {
+            complete((BadRequest, s"Malformed json: $body"))
+          } else {
+            onComplete(DataBase.newDb.pushData(drone.get.get)) {
+              case Success(res) => complete(s"Sent body: $body")
+              case Failure(ex) => complete((InternalServerError, s"An error occurred: ${ex.getMessage}"))
+            }
           }
         }
-      }
-    }
-
-    delete {
-      DataBase.newDb.reset(true)
-      complete("Done")
-    }
+      },
+      delete {
+        DataBase.newDb.reset(true)
+        complete("Done")
+      })
   }
 }
