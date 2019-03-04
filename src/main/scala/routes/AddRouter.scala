@@ -8,18 +8,12 @@ import play.api.libs.json.{Json, OWrites, Reads}
 import scala.util.{Failure, Success, Try}
 import akka.http.scaladsl.model.StatusCodes._
 
-object BarRouter {
+object AddRouter {
   val route: Route = path("drone") {
     post {
       entity(as[String]) { body =>
-
         implicit val droneRd: Reads[DroneData] = Json.reads[DroneData]
-        implicit val droneWr: OWrites[DroneData] = Json.writes[DroneData]
-
-
         val drone = Try(droneRd.reads(Json.parse(body)))
-
-
         if (!drone.isSuccess || !drone.get.isSuccess) {
           complete((BadRequest, s"Malformed json: $body"))
         } else {
@@ -29,8 +23,6 @@ object BarRouter {
           }
         }
       }
-
-
     }
   }
 }
