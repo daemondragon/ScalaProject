@@ -53,6 +53,7 @@ case class InMemDB() extends DataHandler {
       db.run(DBIO.sequence(dropIfExists))
     })
 
+    // Same as before, the await is only here so the program doesn't use an 'incorrect'(ie: not properly setup) db
     Await.ready(setup, Duration(3, SECONDS)).value.get match {
       case Failure(e) => {
         e.printStackTrace()
