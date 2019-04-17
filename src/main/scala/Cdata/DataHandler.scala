@@ -8,7 +8,9 @@ trait DataHandler {
 
   def prepare(): Future[List[Unit]]
 
-  def reset(re_prepare: Boolean = false): Future[List[Unit]]
+  def deleteAllData(): Future[List[Int]]
+
+  def drop(): Future[List[Unit]]
 
   def all(): Future[Seq[DroneData]]
 }

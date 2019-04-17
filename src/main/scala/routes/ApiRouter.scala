@@ -14,8 +14,6 @@ object ApiRouter {
       post {
         entity(as[String]) { body =>
           implicit val droneRd: Reads[DroneData] = Json.reads[DroneData]
-
-
           val drone = Try(droneRd.reads(Json.parse(body)))
           if (!drone.isSuccess || !drone.get.isSuccess) {
             complete((BadRequest, s"Malformed json: $body"))
@@ -28,8 +26,11 @@ object ApiRouter {
         }
       },
       delete {
-        DataBase.newDb.reset(true)
-        complete("Done")
-      })
+        onComplete(DataBase.newDb.deleteAllData()) {
+          case Success(_) => complete("Done")
+          case Failure(ex) => complete((InternalServerError, s"An error occurred: ${ex.getMessage}"))
+        }
+      }
+    )
   }
 }
