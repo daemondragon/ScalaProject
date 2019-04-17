@@ -13,27 +13,17 @@ case class InMemDB() extends DataHandler {
   val db = Database.forConfig("inmemory")
   val tables = List(data)
 
-  def prepare(): Unit = {
-    println("Trying to create tables")
+  def prepare(): Future[List[Unit]] = {
 
-    val existing = db.run(MTable.getTables)
-    val setup = existing.flatMap(v => {
-      val names = v.map(mt => mt.name.name)
-      val createIfNotExist = tables.filter(table =>
-        !names.contains(table.baseTableRow.tableName)).map(_.schema.create)
+    val existing: Future[Vector[MTable]] = db.run(MTable.getTables)
+    existing.flatMap(v => {
+      val names: Seq[String] = v.map(mt => mt.name.name)
+      val createIfNotExist =
+        tables
+          .filter(table => !names.contains(table.baseTableRow.tableName))
+          .map(x => x.schema.create)
       db.run(DBIO.sequence(createIfNotExist))
     })
-
-
-    // We dont want to give an object without the DB properly setup
-    Await.ready(setup, Duration(3, SECONDS)).value.get match {
-      case Failure(e) => {
-        e.printStackTrace()
-        throw e
-      }
-      case _ =>
-    }
-    println("Tables creation complete")
   }
 
   def pushData(drone_data: DroneData): Future[Unit] = {
@@ -43,26 +33,26 @@ case class InMemDB() extends DataHandler {
     db.run(addData)
   }
 
-  def reset(re_prepare: Boolean = false): Unit = {
+  def reset(re_prepare: Boolean = false): Future[List[Unit]] = {
     println("Droping tables")
     val existing = db.run(MTable.getTables)
+
+
     val setup = existing.flatMap(v => {
       val names = v.map(mt => mt.name.name)
-      val dropIfExists = tables.filter(table =>
-        names.contains(table.baseTableRow.tableName)).map(_.schema.drop)
+      val dropIfExists =
+        tables
+          .filter(table => names.contains(table.baseTableRow.tableName))
+          .map(_.schema.drop)
       db.run(DBIO.sequence(dropIfExists))
     })
 
-    Await.ready(setup, Duration(3, SECONDS)).value.get match {
-      case Failure(e) => {
-        e.printStackTrace()
-        throw e
-      }
-      case _ =>
-    }
-    println("Drop complete")
+
     if (re_prepare)
-      prepare()
+      setup.flatMap(_ => prepare())
+    else
+      setup
+
   }
 
   override def all(): Future[Seq[DroneData]] = db.run(data.result)
