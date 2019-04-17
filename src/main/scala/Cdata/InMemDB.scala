@@ -47,7 +47,6 @@ case class InMemDB() extends DataHandler {
       db.run(DBIO.sequence(dropIfExists))
     })
 
-
     if (re_prepare)
       setup.flatMap(_ => prepare())
     else

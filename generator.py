@@ -15,7 +15,7 @@ print(args)
 random.seed(args.seed)
 
 def normal(drone):
-    drone["time"] += random.randint(-1, 10)
+    drone["time"] += random.randint(1, 10)
 
     if drone["battery"] > 0:#Can move
         drone["latitude"] += random.uniform(0.0001, 0.0001)
