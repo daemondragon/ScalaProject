@@ -55,3 +55,16 @@ Le but de ce projet est de réaliser de la maintenance de structure à l'aide de
 
 Pour generer le fichier necessaire pour l'affichage des données via twirl,
 il faut auparavant faire un `compile` dans sbt (Dans Intellij Idea -> sbt shell)
+
+### Utilisation
+
+Une fois lancé, le serveur accepte :  
+  
+```POST /drones```  
+Le body doit contenir les informations d'un drone au format json comme par exemple:  
+```{"id":1,"latitude":1.1,"longitude":4,"temperature":9.7,"battery":5,"defect":1,"time":5984984}```
+ 
+```DELETE /drones```  
+Vide la DB du site
+
+Le site est accessible [127.0.0.1:8080](127.0.0.1:8080)
