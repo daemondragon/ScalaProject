@@ -44,7 +44,9 @@ Le but de ce projet est de réaliser de la maintenance de structure à l'aide de
 - [X] Read whole directory & sub directories
 
 ### Semaine 2
-???
+- [X] Drone producer
+- [ ] Drone consumer
+- [ ] Search on saved information
 
 ## Authors
 - Beuvry Jérémy
@@ -68,3 +70,7 @@ Le body doit contenir les informations d'un drone au format json comme par exemp
 Vide la DB du site
 
 Le site est accessible [127.0.0.1:8080](127.0.0.1:8080)
+
+Afin de lancer kafka, il faut lancer le script
+```kafka_launch.sh```
+Il faut adapter certaines variables afin que le script fonctionne correctement.
