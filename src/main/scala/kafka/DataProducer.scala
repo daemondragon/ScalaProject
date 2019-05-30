@@ -1,8 +1,9 @@
-package client
+package kafka
 
 import java.io.File
 import java.util.Properties
 
+import client.DataLoader
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
 
 object DataProducer {

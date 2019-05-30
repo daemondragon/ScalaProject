@@ -74,3 +74,6 @@ Le site est accessible [127.0.0.1:8080](127.0.0.1:8080)
 Afin de lancer kafka, il faut lancer le script
 ```kafka_launch.sh```
 Il faut adapter certaines variables afin que le script fonctionne correctement.
+
+Le Consumer doit se lancer avant le Producer, afin qu'il puisse recupérer
+l'ensemble des évènements sans en manquer un seul.
