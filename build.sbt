@@ -18,6 +18,8 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.196"
 
+libraryDependencies += "org.apache.kafka" % "kafka_2.12" % "2.2.0"
+
 val root = (project in file("."))
   .enablePlugins(SbtTwirl)
   .settings(//Set the twirl resource directory
