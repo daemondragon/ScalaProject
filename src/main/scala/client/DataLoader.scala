@@ -2,7 +2,9 @@ package client
 
 import java.io.File
 
-import play.api.libs.json.{JsObject, Json}
+import com.google.gson.{Gson, JsonObject, JsonParser}
+
+//import play.api.libs.json.{JsObject, Json}
 
 import scala.io.Source
 
@@ -15,18 +17,21 @@ import scala.io.Source
   */
 object DataLoader {
 
+  def main(args: Array[String]): Unit = {
+      print("Hello")
+  }
+
   def listFiles(file: File): Iterator[File] =
     if (file.isDirectory) //List all files recursively
       Iterator(file) ++ file.listFiles().flatMap(listFiles).toIterator
     else
       Iterator(file)
 
-  def loadJsonData(file: File): Iterator[JsObject] = Source.fromFile(file)
+  def loadJsonData(file: File): Iterator[JsonObject] = Source.fromFile(file)
     .getLines() // Each file is not strictly an array of Json, it contains a Json Value per lines.
-    .map(Json.parse)
-    .map(_.as[JsObject])
+    .map(new JsonParser().parse(_).getAsJsonObject)
 
-  def loadCsvData(file: File): Iterator[JsObject] = {
+  def loadCsvData(file: File): Iterator[JsonObject] = {
     val lines = Source.fromFile(file).getLines()
     val headers = lines.next().split(",")//Get the headers to correctly generate the JsObject
 
@@ -34,10 +39,11 @@ object DataLoader {
       //Transform the given line to Map[String, Double] (every values is a Number)
       .map(line => (headers zip line.split(",").map(_.toDouble)).toMap)
       //Transform from Map[String, Double] to JsObject
-      .map(Json.toJsObject(_))
+      .map(new Gson().toJson(_))
+      .map(new JsonParser().parse(_).getAsJsonObject)
   }
 
-  def loadData(files: Iterator[File]): Iterator[JsObject] = files
+  def loadData(files: Iterator[File]): Iterator[JsonObject] = files
     .flatMap(file =>
       if (file.getName.endsWith(".json")) loadJsonData(file)
       else if (file.getName.endsWith(".csv")) loadCsvData(file)

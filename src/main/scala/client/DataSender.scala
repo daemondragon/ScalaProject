@@ -5,15 +5,16 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
-import play.api.libs.json.JsObject
+import com.google.gson.JsonObject
+//import play.api.libs.json.JsObject
 
 import scala.concurrent.ExecutionContextExecutor
 
 case class DataSender(host: String, port: Int, route: String) {
-  def sendData(objects: Iterator[JsObject]): Unit = {
+  def sendData(objects: Iterator[JsonObject]): Unit = {
     implicit val system: ActorSystem = ActorSystem()
     val http = Http(system)
-    val pool = http.cachedHostConnectionPool[JsObject](host, port)
+    val pool = http.cachedHostConnectionPool[JsonObject](host, port)
 
     implicit val executionContext: ExecutionContextExecutor = system.dispatcher
     implicit val materializer: ActorMaterializer = ActorMaterializer()
