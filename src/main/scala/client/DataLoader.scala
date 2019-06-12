@@ -3,6 +3,9 @@ package client
 import java.io.File
 
 import com.google.gson.{Gson, JsonObject, JsonParser}
+import scala.collection.JavaConverters._
+
+
 
 //import play.api.libs.json.{JsObject, Json}
 
@@ -18,7 +21,13 @@ import scala.io.Source
 object DataLoader {
 
   def main(args: Array[String]): Unit = {
-      print("Hello")
+
+
+
+    DataLoader.loadData(DataLoader.listFiles(new File("./data")))
+        .foreach(x => println(x))
+    println("test")
+
   }
 
   def listFiles(file: File): Iterator[File] =
@@ -35,12 +44,17 @@ object DataLoader {
     val lines = Source.fromFile(file).getLines()
     val headers = lines.next().split(",")//Get the headers to correctly generate the JsObject
 
+    import com.google.gson.GsonBuilder
+    val gson = new GsonBuilder().serializeNulls().create()
+
     lines
       //Transform the given line to Map[String, Double] (every values is a Number)
       .map(line => (headers zip line.split(",").map(_.toDouble)).toMap)
       //Transform from Map[String, Double] to JsObject
-      .map(new Gson().toJson(_))
+      .map(_.asJava)
+      .map(gson.toJson(_))
       .map(new JsonParser().parse(_).getAsJsonObject)
+
   }
 
   def loadData(files: Iterator[File]): Iterator[JsonObject] = files
