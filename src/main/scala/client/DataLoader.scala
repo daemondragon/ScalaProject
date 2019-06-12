@@ -4,6 +4,7 @@ import java.io.File
 
 import com.google.gson.{Gson, JsonObject, JsonParser}
 import scala.collection.JavaConverters._
+import com.google.gson.GsonBuilder
 
 
 
@@ -19,17 +20,6 @@ import scala.io.Source
   * the need to load every files into memory before sending them to the server.
   */
 object DataLoader {
-
-  def main(args: Array[String]): Unit = {
-
-
-
-    DataLoader.loadData(DataLoader.listFiles(new File("./data")))
-        .foreach(x => println(x))
-    println("test")
-
-  }
-
   def listFiles(file: File): Iterator[File] =
     if (file.isDirectory) //List all files recursively
       Iterator(file) ++ file.listFiles().flatMap(listFiles).toIterator
@@ -44,8 +34,8 @@ object DataLoader {
     val lines = Source.fromFile(file).getLines()
     val headers = lines.next().split(",")//Get the headers to correctly generate the JsObject
 
-    import com.google.gson.GsonBuilder
     val gson = new GsonBuilder().serializeNulls().create()
+    val jsp = new JsonParser()
 
     lines
       //Transform the given line to Map[String, Double] (every values is a Number)
@@ -53,7 +43,7 @@ object DataLoader {
       //Transform from Map[String, Double] to JsObject
       .map(_.asJava)
       .map(gson.toJson(_))
-      .map(new JsonParser().parse(_).getAsJsonObject)
+      .map(jsp.parse(_).getAsJsonObject)
 
   }
 
