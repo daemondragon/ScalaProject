@@ -30,7 +30,10 @@ object ApiRouter {
       post {
         entity(as[String]) { body =>
           val drone = Try(g.fromJson(body, classOf[DroneData]))
-          if (!drone.isSuccess) {
+          if (body.equals(null) || body.equals("")) {
+            complete((BadRequest, s"Body cannot be read"))
+          }
+          else if (!drone.isSuccess) {
             complete((BadRequest, s"Malformed json: $body"))
           } else {
             val newDrone = drone.get
