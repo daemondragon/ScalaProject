@@ -17,8 +17,13 @@ libraryDependencies ++= Seq(
 
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.196"
-
 libraryDependencies += "org.apache.kafka" % "kafka_2.12" % "2.2.0"
+
+libraryDependencies += "org.apache.spark" %% "spark-core" % "2.4.3"
+libraryDependencies += "org.apache.spark" %% "spark-streaming" % "2.4.3"
+libraryDependencies += "org.apache.spark" %% "spark-streaming-kafka-0-10" % "2.4.3"
+libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.3"
+
 
 val root = (project in file("."))
   .enablePlugins(SbtTwirl)
