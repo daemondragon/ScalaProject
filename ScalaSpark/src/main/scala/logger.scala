@@ -11,7 +11,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.hadoop.fs.{ FileSystem, FileUtil, Path }
 
-object test {
+object logger {
 
   def main(args: Array[String]): Unit = {
 
@@ -44,7 +44,7 @@ object test {
         )
 
 
-        val topics = Array("drones")
+        val topics = Array("drone")
         val stream = KafkaUtils.createDirectStream[String, String](
           ssc,
           PreferConsistent,
