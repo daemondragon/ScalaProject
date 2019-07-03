@@ -14,8 +14,6 @@ object reader {
     compute(f)
   }
   def compute(value: RDD[String]) = {
-    var hot = 0
-    var called = 0
 
     val north = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
@@ -26,6 +24,14 @@ object reader {
       .filter(_.latitude < 0)
       .count()
 
+    val hot = value
+      .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.temperature >= 20)
+      .count()
+    val called = value
+      .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.temperature < 20)
+      .count()
 
     val low = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
@@ -63,14 +69,14 @@ object reader {
     }
     println(test)
 */
-    println("Proportion of failing devices in north hemisphere : " + (100 * (north / (north+south))).toString() + "%")
+    println("Proportion of failing devices in north hemisphere : " + ((100.0 * north / (north+south))).toString() + "%")
 
     if (hot > called) {
       println("There's more failing devices when temperature is over 20°C")
     } else {
       println("There's more failing devices when temperature is bellow 20°C")
     }
-    println(((low / (low + notlow))*100).toString() + "% of devices fails because of low battery or empty fuel tank")
+    println(((100.0 * low / (low + notlow))).toString() + "% of devices fails because of low battery or empty fuel tank")
 
   }
 
