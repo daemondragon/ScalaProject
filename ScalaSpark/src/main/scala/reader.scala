@@ -20,7 +20,7 @@ object reader {
     var called = 0
     var low = 0
     var notlow = 0
-    value.foreach(str => {
+    for (str <- value) {
       val g = new Gson()
 
       val drone = g.fromJson(str, classOf[DroneData])
@@ -30,30 +30,27 @@ object reader {
         } else {
           south = south + 1
         }
-        if (drone.temperature >= 20) {
+        if (drone.temperature >= 20.0) {
           hot = hot + 1
         } else {
           called = called + 1
         }
-        if (drone.battery < 15) {
+        if (drone.battery < 15.0) {
           low = low + 1
         } else {
           notlow = notlow + 1
         }
-        println(str)
+        println(north.toString())
       }
-    })
-    print("Proportion of failing devices in north hemisphere : ")
-    print(north.toString)
-    print("/")
-    println((north + south).toString)
+    }
+    println("Proportion of failing devices in north hemisphere : " + (100 * (north / (north+south))).toString() + "%")
+
     if (hot > called) {
       println("There's more failing devices when temperature is over 20°C")
     } else {
       println("There's more failing devices when temperature is bellow 20°C")
     }
-    print(((low / (low + notlow))*100).toString)
-    print("% of devices fails because of low battery or empty fuel tank")
+    println(((low / (low + notlow))*100).toString() + "% of devices fails because of low battery or empty fuel tank")
 
   }
 
