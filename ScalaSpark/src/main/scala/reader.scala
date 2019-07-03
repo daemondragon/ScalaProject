@@ -1,4 +1,5 @@
 import com.google.gson.Gson
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 
 object reader {
@@ -10,17 +11,40 @@ object reader {
       .getOrCreate()
 
     val f = Spark.sparkContext.textFile("./data.txt")
-
-    f.foreach(str => compute(str))
+    compute(f)
   }
+  def compute(value: RDD[String]) = {
+    var south = 0
+    var north = 0
+    var hot = 0
+    var called = 0
+    var low = 0
+    var notlow = 0
+    value.foreach(str => {
+      val g = new Gson()
 
-  def compute(str: String) = {
-    val g = new Gson()
+      val drone = g.fromJson(str, classOf[DroneData])
+      if (drone.defect == 1) {
+        if (drone.latitude >= 0) {
+          north = north + 1
+        } else {
+          south = south + 1
+        }
 
-    val drone = g.fromJson(str, classOf[DroneData])
-    if (drone.defect == 1) {
-      println(str)
+        }
+        println(str)
+      }
+    })
+    print("Proportion of failing devices in north hemisphere :")
+    print(north.toString)
+    print("/")
+    println((north + south).toString)
+    if (hot > called) {
+      println("There's more failing devices when temperature is over 20°C")
+    } else {
+      println("There's more failing devices when temperature is bellow 20°C")
     }
+
   }
 
   /*
