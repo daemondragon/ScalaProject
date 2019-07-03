@@ -43,7 +43,7 @@ object reader {
         println(str)
       }
     })
-    print("Proportion of failing devices in north hemisphere :")
+    print("Proportion of failing devices in north hemisphere : ")
     print(north.toString)
     print("/")
     println((north + south).toString)
@@ -52,6 +52,8 @@ object reader {
     } else {
       println("There's more failing devices when temperature is bellow 20°C")
     }
+    print(((low / (low + notlow))*100).toString)
+    print("% of devices fails because of low battery or empty fuel tank")
 
   }
 
