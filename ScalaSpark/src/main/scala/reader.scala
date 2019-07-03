@@ -14,10 +14,18 @@ object reader {
     compute(f)
   }
   def compute(value: RDD[String]) = {
-    var south = 0
-    var north = 0
     var hot = 0
     var called = 0
+
+    val north = value
+      .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.latitude >= 0)
+      .count()
+    val south = value
+      .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.latitude < 0)
+      .count()
+
 
     val low = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
@@ -26,7 +34,9 @@ object reader {
     val notlow = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
       .filter(_.battery > 15)
-      .count()  /*  var test = 0
+      .count()
+
+    /*  var test = 0
     for (str <- value) {
       val g = new Gson()
 
