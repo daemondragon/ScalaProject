@@ -1,17 +1,11 @@
-import org.apache.hadoop.fs.{FileSystem, FileUtil, Path}
-import org.apache.hadoop.io.compress.CompressionCodec
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.spark.streaming.kafka010._
-import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
-import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
-import org.apache.spark.streaming.Seconds
-import org.apache.spark.streaming.StreamingContext
-import org.apache.spark.SparkConf
-import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{SaveMode, SparkSession}
-import org.apache.hadoop.fs.{ FileSystem, FileUtil, Path }
+import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
+import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
+import org.apache.spark.streaming.kafka010._
 
-object logger {
+object Writer {
 
   def main(args: Array[String]): Unit = {
 
