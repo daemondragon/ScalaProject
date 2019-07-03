@@ -18,9 +18,15 @@ object reader {
     var north = 0
     var hot = 0
     var called = 0
-    var low = 0
-    var notlow = 0
-    var test = 0
+
+    val low = value
+      .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.battery <= 15)
+      .count()
+    val notlow = value
+      .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.battery > 15)
+      .count()  /*  var test = 0
     for (str <- value) {
       val g = new Gson()
 
@@ -46,7 +52,7 @@ object reader {
       println(test)
     }
     println(test)
-
+*/
     println("Proportion of failing devices in north hemisphere : " + (100 * (north / (north+south))).toString() + "%")
 
     if (hot > called) {
