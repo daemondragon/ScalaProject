@@ -35,7 +35,11 @@ object reader {
         } else {
           called = called + 1
         }
-
+        if (drone.battery < 15) {
+          low = low + 1
+        } else {
+          notlow = notlow + 1
+        }
         println(str)
       }
     })
