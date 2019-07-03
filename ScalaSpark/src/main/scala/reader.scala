@@ -30,8 +30,12 @@ object reader {
         } else {
           south = south + 1
         }
-
+        if (drone.temperature >= 20) {
+          hot = hot + 1
+        } else {
+          called = called + 1
         }
+
         println(str)
       }
     })
