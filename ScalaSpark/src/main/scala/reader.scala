@@ -17,28 +17,34 @@ object reader {
 
     val north = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.defect == 1)
       .filter(_.latitude >= 0)
       .count()
     val south = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.defect == 1)
       .filter(_.latitude < 0)
       .count()
 
     val hot = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.defect == 1)
       .filter(_.temperature >= 20)
       .count()
     val called = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.defect == 1)
       .filter(_.temperature < 20)
       .count()
 
     val low = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.defect == 1)
       .filter(_.battery <= 15)
       .count()
     val notlow = value
       .map(new Gson().fromJson(_, classOf[DroneData]))
+      .filter(_.defect == 1)
       .filter(_.battery > 15)
       .count()
 
